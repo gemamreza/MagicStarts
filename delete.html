@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DELETE</title>
+</head>
+<style>
+    table,th,td {
+        border : 2px solid red;
+        border-collapse: collapse;
+        padding : 20px;
+    }
+</style>
+<body>
+    <Center>
+        <table id="Isi_Table">
+        
+        </table>
+    </Center>
+<script>
+    class DataMenu {
+        constructor(a,b,c){
+            this.nama = a;
+            this.harga = b;
+            this.img = c;
+        }
+    }
+    var data = [
+        new DataMenu('Adidas Copa 50', 500 +' USD', 'https://images.sportsdirect.com/images/products/20303740_l.jpg'),
+        new DataMenu('Nike Hypervenom', 200 +' USD','https://images.sportsdirect.com/images/products/20114040_l.jpg'),
+        new DataMenu('Adidas Nemeziz', 300 +' USD', 'https://cdn.runrepeat.com/i/adidas/25924/adidas-nemeziz-17-1-fg-chaussures-de-football-homme-multicolore-blanc-noir-ftwbla-amasol-negbas-42-eu-homme-multicolore-blanc-noir-ftwbla-amasol-negbas-a719-600.jpg')
+    ]
+
+    function tampil(arr){
+        var output = ''
+        var a = arr.map(function(item,index){
+            return  `<tr>
+                     <td>${item.nama}</td>
+                     <td>${item.harga}</td>
+                     <td><img src='${item.img}' width='70px'></td>
+                     <td>${index}</td>
+                     <td><input type="button" value="Delete" onclick="hapus(${index})"></td>
+                    `
+        })
+        document.getElementById("Isi_Table").innerHTML = a.join('')
+    }
+    tampil(data)
+
+    function hapus(a){
+     if(window.confirm('Are you sure you want to delete  ? ')){ ' //+ index[item.nama] + '
+        data.splice(a,1)
+        alert('Your Data has been deleted!')
+        tampil(data)
+
+    
+    }
+    }
+</script>
+</body>
+</html>
