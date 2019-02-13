@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LATIHAN</title>
+</head>
+<style>
+    table,th,td {
+        border : 1px solid black;
+        border-collapse: collapse;
+        padding : 20px;
+    }
+</style>
+<body>
+    <Center>
+        <h2><b>Toko Mang ujang</b></h2>
+        <table>
+            <tr>
+                <br><td><input type="text" placeholder="Nama Barang"></br>
+                <br><input type="number" placeholder="Harga"></br>
+                <br><input type="text" placeholder="Gambar"></br>
+                <br><input type="button" value="SUBMIT" onclick="tambah()">
+                    <input type="button" value="Check Out" onclick="checkOut()"></td>
+            </tr>
+        </table>
+        <h1>
+
+        </h1>
+
+        <table id="Isi_Table">
+        
+        </table>
+        <h1>
+
+        </h1>
+        <table id="Table">
+
+        </table>
+        <h3>
+
+        </h3>
+    </Center>
+<script>
+    class DataMenu {
+        constructor(a,b,c){
+            this.nama = a;
+            this.harga = b;
+            this.img = c;
+        }
+    }
+
+    var data = []
+
+    function tambah(){
+    
+    var selektor = document.getElementsByTagName('input')
+    var nama = selektor[0].value  
+    var harga = parseInt(selektor[1].value)
+    var img = selektor[2].value
+    if(nama == '' || harga == '' || img == ''){
+        document.getElementsByTagName('h1')[0].style.color = 'red'
+        document.getElementsByTagName('h1')[0].innerHTML = 'Harus diisi'
+    }else{
+        document.getElementsByTagName('h1')[0].innerHTML = ''
+        var newData = new DataMenu(nama,harga,img)
+        data.push(newData)
+        tampil(data)
+        for(var i = 0; i <3 ; i++){
+            selektor[i].value = ''
+        }
+    }
+    }  
+
+    function tampil(arr){
+        if (arr.length > 0) {
+        var a = arr.map(function(item,index){  
+             return `<tr>
+                     <td>${item.nama}</td>
+                     <td>${item.harga}</td>
+                     <td><img src=${item.img} width = '70px'></td>
+                     <td><input type="button" value="addToCart" onclick="addToCart(${index})"></td>
+                     <td><input type="button" value="Delete" onclick="Delete(${index})"></td>
+                     </tr>`
+        }) 
+             var th = `<thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Gambar</th>
+                            <th>Action</th>
+                            <th>Action</th>
+                        </tr> ${a.join('')}
+                       </thead>`
+                    
+                document.getElementById('Isi_Table').innerHTML = th        
+        } else {
+            document.getElementById('Isi_Table').innerHTML = ''
+        }
+    }
+    tampil(data)
+
+
+    function tampilCart(arr){
+        var output = ''
+        var a = arr.map(function(item,index){
+            return  `<tr>
+                        <td>${item.nama}</td>
+                        <td>${item.harga}</td>
+                        <td><img src='${item.img}' width='70px'></td>   
+                        <td><input type="button" value="Delete Cart" onclick="DeleteCart(${index})"></td>
+                    </tr>                 
+                    `
+        })
+        document.getElementsByTagName('h1')[1].innerHTML = 'KERANJANG ISI ' + newData.length
+        if(newData == 0){
+        document.getElementsByTagName('h1')[1].innerHTML = ""
+        }
+        document.getElementById("Table").innerHTML = a.join('')
+    }
+  
+    var newData = []
+    function addToCart(a){
+        newData.push(data[a])
+        var a = newData.map(function(item,index){
+        return  `<tr>
+                     <td>${item.nama}</td>
+                     <td>${item.harga}</td>
+                     <td><img src='${item.img}' width='70px'></td>
+                     <td><input type="button" value="Delete Cart" onclick="DeleteCart(${index})"></td>
+                </tr>   
+               `
+    })
+    document.getElementsByTagName('h1')[1].innerHTML = 'KERANJANG ISI ' + newData.length
+    document.getElementById("Table").innerHTML = a.join('')
+    }
+
+    function Delete(a){
+        if(window.confirm('Are you sure you want to Delete this ? ')){ 
+            data.splice(a,1)
+            alert('Your Data has been deleted!')
+            tampil(data)
+        }
+    }
+    function DeleteCart(a){
+        if(window.confirm('Are you sure you want to Delete this ? ')){ 
+            newData.splice(a,1)
+            alert('Your Data has been deleted!')
+            tampilCart(newData)
+        }
+    }
+
+
+    function checkOut() {
+    if(newData.length == 0){
+        alert('Anda Belum belanja apapun')
+    } else {
+        var total = 0
+        var keranjang = ''
+        var keranjang = newData.map(function(item,index){ 
+            keranjang += `${index+1}. ${item.nama} dan harga Rp. ${item.harga},-- <br>`
+            total = `${item.harga}`
+            document.getElementsByTagName('h3')[0].innerHTML = 'Keranjang Belanja ' + '<br>' + keranjang + 'dengan total belanja Rp. ' +
+                                                                total + ',--'
+        })
+        // keranjang += '\n Total Belanja Adalah Rp. ' + total
+        // keranjang += '\n Silakan Bayar'
+        // do{
+        //     var uangkurang = true
+        //     var bayar = parseInt(prompt(keranjang))
+        //     if(bayar < total){
+        //         alert('Uang anda kurang')
+        // } else {
+        //     uangkurang = false
+        // }
+        // } while (uangkurang == true)
+        // cart.splice(0, cart.length)
+        // hargaCart.splice(0, hargaCart.length)
+        // alert('OK!')
+       
+    }
+}
+</script>
+</body>
+</html>
+
